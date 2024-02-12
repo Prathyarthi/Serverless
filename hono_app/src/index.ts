@@ -3,6 +3,18 @@ const app = new Hono()
 
 // app.get('/', (c) => c.text('Hello Cloudflare Workers!'))
 
+
+// Middlewares
+app.use(async (c, next) => {
+  if (c.req.header("Authorization")) {
+    // Do validation
+    next()
+  } else {
+    return c.text("You dont have acces");
+  }
+})
+
+// req.body,headers,params
 app.get('/', async (c) => {
   const body = await c.req.json()
   console.log(body);
